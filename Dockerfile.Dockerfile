@@ -13,7 +13,8 @@ VOLUME /var/log/supervisor
 
 #install sshd 
 RUN yum install -y openssh-server && sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
-# 添加测试用户admin，密码admin，并且将此用户添加到sudoers里
+
+
 RUN echo "root:comall2014" | chpasswd && echo "root   ALL=(ALL)       ALL" >> /etc/sudoers
 RUN ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key && ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
 RUN mkdir /var/run/sshd
