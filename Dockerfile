@@ -1,3 +1,4 @@
+
 FROM centos:centos6
 MAINTAINER  aaron "aaron.docker@gmail.com"
 
@@ -13,17 +14,20 @@ VOLUME /var/log/supervisor
 
 #install sshd 
 RUN yum install -y openssh-server && sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
-
-
-RUN echo "root:comall2014" | chpasswd && echo "root   ALL=(ALL)       ALL" >> /etc/sudoers
+# select root pasword
+RUN echo "root:pasword" | chpasswd && echo "root   ALL=(ALL)       ALL" >> /etc/sudoers
 RUN ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key && ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
 RUN mkdir /var/run/sshd
 
 #install tomcat
-RUN java -version && yum -y install wget && yum -y install tar
+RUN java -version && yum -y install wget && yum -y install tar && mkdir /deploy
 RUN cd /tmp && wget http://www.us.apache.org/dist/tomcat/tomcat-7/v7.0.57/bin/apache-tomcat-7.0.57.tar.gz && cd /tmp && tar xzf apache-tomcat-7.0.57.tar.gz &&  mv apache-tomcat-7.0.57 /usr/local/tomcat && mkdir /deploy && chmod +x /usr/local/tomcat/bin/*
 
+#Started tomcat 
+ADD tomcat-run.sh /usr/local/bin/tomcat-run.sh
+RUN chown root:root /usr/local/bin/tomcat-run.sh && chmod +x /usr/local/bin/tomcat-run.sh
 ADD ./server.xml /usr/local/tomcat/conf/
+ADD ./tomcat-users.xml /usr/local/tomcat/conf/
 ENV CATALINA_HOME /usr/local/tomcat
 
 EXPOSE 22 8080
