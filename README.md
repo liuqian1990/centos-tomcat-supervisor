@@ -17,4 +17,4 @@ Supervisor Management process
     stdout_logfile = /var/log/supervisor/%(program_name)s.log
 
 ### Start docker supervisor tomcat and sshd
-docker run -p 2222:22 -p 80:8080 -it -v -v /deploy:/deploy aarongo/centos-tomcat-supervisor
+docker run -p 1024:22 -p 80:8080 -it -v /deploy:/deploy aarongo/centos-tomcat-supervisor
