@@ -21,7 +21,7 @@ RUN mkdir /var/run/sshd
 
 #install tomcat
 RUN java -version && yum -y install wget && yum -y install tar && mkdir /deploy
-RUN cd /tmp && wget http://www.us.apache.org/dist/tomcat/tomcat-7/v7.0.57/bin/apache-tomcat-7.0.57.tar.gz && cd /tmp && tar xzf apache-tomcat-7.0.57.tar.gz &&  mv apache-tomcat-7.0.57 /usr/local/tomcat && mkdir /deploy && chmod +x /usr/local/tomcat/bin/*
+RUN cd /tmp && wget http://www.us.apache.org/dist/tomcat/tomcat-7/v7.0.57/bin/apache-tomcat-7.0.57.tar.gz && cd /tmp && tar xzf apache-tomcat-7.0.57.tar.gz &&  mv apache-tomcat-7.0.57 /usr/local/tomcat && rm -rf /deploy && mkdir /deploy && chmod +x /usr/local/tomcat/bin/*
 
 #Started tomcat 
 ADD tomcat-run.sh /usr/local/bin/tomcat-run.sh
